@@ -19,8 +19,38 @@ def create_app(test_config=None):
             'GET,PATCH,POST,DELETE,OPTIONS')
         return response
 
-    @app.route('/', methods=['GET'])
-    def home():
+    @app.route('/actors', methods=['GET'])
+    def actors():
+        return jsonify({
+            'success': 'Hello:World'
+        })
+
+    @app.route('/movies', methods=['GET'])
+    def movies():
+        return jsonify({
+            'success': 'Hello:World'
+        })
+
+    @app.route('/actors', methods=['DELETE'])
+    def delete_actor():
+        return jsonify({
+            'success': 'Hello:World'
+        })
+
+    @app.route('/movies', methods=['DELETE'])
+    def delete_movie():
+        return jsonify({
+            'success': 'Hello:World'
+        })
+
+    @app.route('/actors', methods=['PATCH'])
+    def update_actor():
+        return jsonify({
+            'success': 'Hello:World'
+        })
+
+    @app.route('/movies', methods=['PATCH'])
+    def update_movie():
         return jsonify({
             'success': 'Hello:World'
         })
