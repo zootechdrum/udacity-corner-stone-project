@@ -1,19 +1,27 @@
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
-
 import os
 from sqlalchemy import Column, String, Integer, create_engine, DateTime
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import json
 
+
+
 database_name = os.environ.get('database_name')
 database_port = os.environ.get('database_port')
-print(database_name)
+
+db = SQLAlchemy()
 
 database_path = 'postgres://{}/{}'.format(database_port,database_name)
 
-db = SQLAlchemy()
+def setup_db(app,database_name=database_path):
+    app.config["SQLALCHEMY_DATABASE_URI"] = database_path
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    db.app = app
+    db.init_app(app)
+    migrate = Migrate(app, db)
+
 
 class Movie(db.Model):
     __tablename__='movies'
