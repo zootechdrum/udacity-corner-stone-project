@@ -25,8 +25,12 @@ def create_app(test_config=None):
     @app.route('/actors', methods=['GET'])
     def actors():
         return jsonify({
-            'success': 'Hello:World'
-        })
+            'success': True,
+            'actors':[{"id": 1,
+                        "name": "Cesar Gomez",
+                        "age": 30,
+                        "gender":"male"}]
+        }), 200
 
     @app.route('/movies', methods=['GET'])
     def movies():
