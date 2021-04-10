@@ -32,6 +32,19 @@ def create_app(test_config=None):
                         "gender":"male"}]
         }), 200
 
+    @app.route('/add_actor', methods=['POST'])
+    def add_actor():
+        body = request.get_json()
+
+        error = False
+
+        name = body['name']
+        age = body['name']
+        gender = body['name']
+
+
+        
+
     @app.route('/movies', methods=['GET'])
     def movies():
         return jsonify({

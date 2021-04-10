@@ -38,3 +38,13 @@ class Actor(db.Model):
     name = Column(String)
     age = Column(Integer)
     gender = Column(String)
+
+
+    def __init__(self, name, age, gender):
+        self.name = name
+        self.age = age
+        self.gender = gender
+
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
