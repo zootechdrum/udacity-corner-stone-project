@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
 
-from models import db, setup_db
+from models import db, setup_db, Actor
 
 
 def create_app(test_config=None):
@@ -34,13 +34,32 @@ def create_app(test_config=None):
 
     @app.route('/add_actor', methods=['POST'])
     def add_actor():
+
         body = request.get_json()
-
         error = False
+        try:
 
-        name = body['name']
-        age = body['name']
-        gender = body['name']
+            name = body['name']
+            age = body['age']
+            gender = body['gender']
+            
+            actor = Actor(
+                name=name,
+                age=age,
+                gender=gender
+            )
+            db.session.add(actor)
+            db.session.commit()
+        except:
+            error = True
+            db.session.rollback()
+        finally:
+            db.session.close()
+
+        if error:
+            abort(422)
+        else:
+            return jsonify({'success': True})
 
 
         

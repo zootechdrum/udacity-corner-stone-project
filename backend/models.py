@@ -46,5 +46,6 @@ class Actor(db.Model):
         self.gender = gender
 
     def insert(self):
+        print(self)
         db.session.add(self)
         db.session.commit()
