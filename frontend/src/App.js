@@ -1,8 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
 
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom'
+
 import Grid from '@material-ui/core/Grid';
-import AddActorForm from './components/FormView'
+import AddActorForm from './components/Form/actorForm'
+import AddMovieForm from './components/Form/movieForm'
 
 function App() {
   return (
@@ -14,9 +21,16 @@ function App() {
     direction="column"
     style={{ backgroundColor: 'teal' }}
   >
-    <AddActorForm />
-  </Grid>
-);
+      <Router>
+        <Switch>
+          <Route path="/addactor" component={AddActorForm} />
+          <Route path="/addmovie" component={AddMovieForm} />
+        </Switch>
+      </Router>
+      </Grid>
+  )
+
+
 }
 
 export default App;
