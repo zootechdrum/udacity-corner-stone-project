@@ -43,7 +43,7 @@ const AddActorForm = () => {
       <Input type="date" onChange={onChangeForDate} placeholder="release date" inputProps={{ 'aria-label': 'description' }} />
       </form>
       <Button variant="contained" onClick={submit} color="secondary">
-  Secondary
+  Add a Movie
 </Button>
     </Grid>
  )
