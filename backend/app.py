@@ -1,10 +1,11 @@
 import os
 from flask import Flask, request, abort, jsonify
+import json
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
 
-from models import db, setup_db, Actor
+from models import db, setup_db, Actor, Movie
 
 
 def create_app(test_config=None):
@@ -24,12 +25,13 @@ def create_app(test_config=None):
 
     @app.route('/actors', methods=['GET'])
     def actors():
+        actors = Actor.query.all()
+
+        formatted_actors = [actor.format() for actor in actors]
+        print(formatted_actors)
         return jsonify({
-            'success': True,
-            'actors':[{"id": 1,
-                        "name": "Cesar Gomez",
-                        "age": 30,
-                        "gender":"male"}]
+            'actors':formatted_actors,
+            'success': True
         }), 200
 
     @app.route('/add_actor', methods=['POST'])
@@ -59,7 +61,41 @@ def create_app(test_config=None):
         if error:
             abort(422)
         else:
-            return jsonify({'success': True})
+            return jsonify({
+                'success': True,
+                'message':'Actor was saved!'
+                
+                })
+
+    @app.route('/add_movie', methods=['POST'])
+    def add_movie():
+
+        body = request.get_json()
+        error = False
+        try:
+
+            title = body['title']
+            release_date = body['release_date']
+            
+            movie = Movie(
+                title=title,
+                release_date=release_date,
+            )
+            db.session.add(movie)
+            db.session.commit()
+        except:
+            error = True
+            db.session.rollback()
+        finally:
+            db.session.close()
+
+        if error:
+            abort(422)
+        else:
+            return jsonify({
+                'success': True,
+                'message':'Movie has been added!'
+            })
 
 
         

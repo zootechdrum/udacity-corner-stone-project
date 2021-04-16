@@ -49,3 +49,11 @@ class Actor(db.Model):
         print(self)
         db.session.add(self)
         db.session.commit()
+
+    def format(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'age': self.age,
+            'gender': self.gender
+        }
