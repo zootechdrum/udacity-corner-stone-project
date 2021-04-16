@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 
 
 
-const AddActorForm = () => {
+const AddAMovieForm = () => {
     const [movieName, setMovieName] = useState('');
     const [date, setReleaseDate] = useState('');
 
@@ -21,9 +21,6 @@ const AddActorForm = () => {
     }
 
     const submit = () => {
-      console.log(date)
-      console.log(movieName)
-
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -49,4 +46,4 @@ const AddActorForm = () => {
  )
 }
 
-export default AddActorForm;
+export default AddAMovieForm;

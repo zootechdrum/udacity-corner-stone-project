@@ -11,30 +11,45 @@ const AddActorForm = () => {
   const [age, setAge] = useState('');
   const [gender, setGender] = useState('');
 
-  const onChangeForGender= (event) => {
+  const onChangeForGender = (event) => {
     setGender(event.target.value)
-}
+  }
 
-  const submit = () => {
+  const onChangeForAge = (event) => {
+    setAge(event.target.value)
+  }
+
+  const onChangeForName= (event) => {
+    setName(event.target.value)
+  }
+
+    const submit = () => {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, age: age, gender:gender })
+    };
+
+      fetch('/add_actor', requestOptions) 
+      .then(res => console.log(res.json()))
+  }
 
 
+  
 
-
-}
-
- return (
+  return (
     <Grid item style={{ backgroundColor: 'yellow' }}>
       <h2>Add an Actor</h2>
-    <form  noValidate autoComplete="off">
-      <Input placeholder="Actors Full Name" inputProps={{ 'aria-label': 'description' }} />
-      <Input placeholder="Gender" inputProps={{ 'aria-label': 'description' }} />
-      <Input placeholder="age" inputProps={{ 'aria-label': 'description' }} />
+      <form noValidate autoComplete="off">
+        <Input placeholder="Actors Full Name" onChange={onChangeForName} inputProps={{ 'aria-label': 'description' }} />
+        <Input placeholder="Gender" onChange={onChangeForGender} inputProps={{ 'aria-label': 'description' }} />
+        <Input placeholder="age" onChange={onChangeForAge}  inputProps={{ 'aria-label': 'description' }} />
       </form>
       <Button variant="contained" onClick={submit} color="secondary">
-  Add an Actor
+        Add an Actor
 </Button>
     </Grid>
- )
+  )
 
 }
 
