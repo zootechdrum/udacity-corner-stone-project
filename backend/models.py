@@ -13,7 +13,7 @@ database_port = os.environ.get('database_port')
 
 db = SQLAlchemy()
 
-database_path = 'postgres://{}/{}'.format(database_port,database_name)
+database_path = 'postgresql://{}/{}'.format(database_port,database_name)
 
 def setup_db(app,database_name=database_path):
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
@@ -29,6 +29,13 @@ class Movie(db.Model):
     id = Column(Integer, primary_key=True)
     title = Column(String)
     release_date = Column(DateTime)
+
+    def format(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'release_date': self.release_date,
+        }    
 
 class Actor(db.Model):
     __tablename__='actors'
@@ -46,7 +53,6 @@ class Actor(db.Model):
         self.gender = gender
 
     def insert(self):
-        print(self)
         db.session.add(self)
         db.session.commit()
 

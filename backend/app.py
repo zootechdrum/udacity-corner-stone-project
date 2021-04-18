@@ -102,15 +102,21 @@ def create_app(test_config=None):
 
     @app.route('/movies', methods=['GET'])
     def movies():
+        movies = Movie.query.all()
+
+
+        formatted_movies = [movie.format() for movie in movies ]
+        print(formatted_movies)
         return jsonify({
-            'success': 'Hello:World'
+            'success': True,
+            'movies':formatted_movies
         })
 
     @app.route('/actors', methods=['DELETE'])
     def delete_actor():
         return jsonify({
             'success': 'Hello:World'
-        })
+        }), 200
 
     @app.route('/movies', methods=['DELETE'])
     def delete_movie():
