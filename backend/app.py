@@ -98,8 +98,6 @@ def create_app(test_config=None):
             })
 
 
-        
-
     @app.route('/movies', methods=['GET'])
     def movies():
         movies = Movie.query.all()
@@ -112,11 +110,29 @@ def create_app(test_config=None):
             'movies':formatted_movies
         })
 
-    @app.route('/actors', methods=['DELETE'])
-    def delete_actor():
-        return jsonify({
-            'success': 'Hello:World'
-        }), 200
+    @app.route('/actors/<actor_id>', methods=['DELETE'])
+    def delete_actor(actor_id):
+        actor = {}
+        error = False
+        try:
+            actor = Actor.query.filter(
+                Actor.id == actor_id).first()
+
+            if actor is None:
+                abort(404)
+                print(actor)
+            actor.delete()
+        except BaseException:
+            error = True
+            db.session.rollback()
+        finally:
+            db.session.close()
+        if error:
+            abort(422)
+        else:           
+            return jsonify({
+                'success': 'Hello:World'
+                }), 200
 
     @app.route('/movies', methods=['DELETE'])
     def delete_movie():

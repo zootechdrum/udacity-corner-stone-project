@@ -35,7 +35,11 @@ class Movie(db.Model):
             'id': self.id,
             'title': self.title,
             'release_date': self.release_date,
-        }    
+        }
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()    
 
 class Actor(db.Model):
     __tablename__='actors'
@@ -63,3 +67,7 @@ class Actor(db.Model):
             'age': self.age,
             'gender': self.gender
         }
+        
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()  

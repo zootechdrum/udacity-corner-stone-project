@@ -34,7 +34,13 @@ class MovieCastingTestCase(unittest.TestCase):
 
     def test_get_movies(self):
         res = self.client().get('/movies')
-        print(res)
+ 
+
+        self.assertEqual(res.status_code,200)
+
+    def test_get_actors(self):
+        res = self.client().get('/actors')
+ 
 
         self.assertEqual(res.status_code,200)
 
