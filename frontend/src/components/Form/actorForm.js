@@ -27,7 +27,7 @@ const AddActorForm = () => {
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name, age: age, gender:gender })
+        body: JSON.stringify({ name: name, age: age, gender: gender })
     };
 
       fetch('/add_actor', requestOptions) 
