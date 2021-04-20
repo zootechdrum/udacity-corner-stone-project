@@ -97,14 +97,10 @@ def create_app(test_config=None):
                 'message':'Movie has been added!'
             })
 
-
     @app.route('/movies', methods=['GET'])
     def movies():
         movies = Movie.query.all()
-
-
         formatted_movies = [movie.format() for movie in movies ]
-        print(formatted_movies)
         return jsonify({
             'success': True,
             'movies':formatted_movies
@@ -131,20 +127,68 @@ def create_app(test_config=None):
             abort(422)
         else:           
             return jsonify({
-                'success': 'Hello:World'
+                'success': True,
+                'message':"Deleted an actor"
                 }), 200
 
-    @app.route('/movies', methods=['DELETE'])
-    def delete_movie():
-        return jsonify({
-            'success': 'Hello:World'
-        })
+    @app.route('/movies/<movie_id>', methods=['DELETE'])
+    def delete_movie(movie_id):
+        movie = {}
+        error = False
+        try:
+            movie = Movie.query.filter(
+                Movie.id == movie_id).first()
 
-    @app.route('/actors', methods=['PATCH'])
-    def update_actor():
-        return jsonify({
-            'success': 'Hello:World'
-        })
+            if movie is None:
+                abort(404)
+
+            movie.delete()
+        except BaseException:
+            error = True
+            db.session.rollback()
+        finally:
+            db.session.close()
+        if error:
+            abort(422)
+        else:           
+            return jsonify({
+                'success': True,
+                'message':"Deleted a movie"
+                }), 200
+
+    @app.route('/actors/<int:id>', methods=['PATCH'])
+    def update_actor(id):
+        error = False
+
+        try: 
+            body = request.get_json()
+            print(body)
+            name = body['name']
+            age = body['age']
+            gender = body['gender']
+            update_actor = Actor.query.filter(Actor.id == id).one_or_none()
+
+
+            if update_actor is None:
+                abort(404)
+
+            update_actor.name = name
+            update_actor.age = age
+            update_actor.gender = gender
+            update_actor.update()
+
+
+            return jsonify({
+                'success': True,
+                'message':"Updated actor successfuly"
+            })
+        except BaseException:
+            error = True
+            db.session.rollback()
+        finally:
+            db.session.close()
+        if error:
+            abort(422)
 
     @app.route('/movies', methods=['PATCH'])
     def update_movie():

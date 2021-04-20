@@ -67,7 +67,10 @@ class Actor(db.Model):
             'age': self.age,
             'gender': self.gender
         }
-        
+
     def delete(self):
         db.session.delete(self)
-        db.session.commit()  
+        db.session.commit() 
+        
+    def update(self):
+        db.session.commit() 
