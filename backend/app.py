@@ -190,11 +190,35 @@ def create_app(test_config=None):
         if error:
             abort(422)
 
-    @app.route('/movies', methods=['PATCH'])
-    def update_movie():
-        return jsonify({
-            'success': 'Hello:World'
-        })
+    @app.route('/movies/<int:id>', methods=['PATCH'])
+    def update_movie(id):
+        error = False
+        try: 
+            body = request.get_json()
+            title = body['title']
+            release_date = body['release_date']
+            update_movie = Movie.query.filter(Movie.id == id).one_or_none()
+
+            if update_movie is None:
+                abort(404)
+
+            update_movie.title = title
+            update_actor.release_date = release_date
+            print(update_movie)
+            update_movie.update()
+
+
+            return jsonify({
+                'success': True,
+                'message':"Updated movie successfuly"
+            })
+        except BaseException:
+            error = True
+            db.session.rollback()
+        finally:
+            db.session.close()
+        if error:
+            abort(422)
 
     
 
