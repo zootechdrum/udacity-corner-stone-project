@@ -10,9 +10,16 @@ import {
 import Grid from '@material-ui/core/Grid';
 import AddActorForm from './components/Form/actorForm'
 import AddMovieForm from './components/Form/movieForm'
+import Main from './pages/main'
+import NavBar from './components/Navbar/navbar'
+import { Fragment } from 'react';
 
 function App() {
   return (
+<>
+  <NavBar/>
+
+
     <Grid
     container
     spacing={0}
@@ -21,16 +28,17 @@ function App() {
     direction="column"
     style={{ backgroundColor: 'teal' }}
   >
+
       <Router>
         <Switch>
+          <Route path="/" component={Main} />
           <Route path="/addactor" component={AddActorForm} />
           <Route path="/addmovie" component={AddMovieForm} />
         </Switch>
       </Router>
       </Grid>
+</>
   )
-
-
 }
 
 export default App;
