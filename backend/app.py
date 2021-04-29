@@ -3,7 +3,7 @@ from flask import Flask, request, abort, jsonify
 import json
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-
+from auth.auth import AuthError, requires_auth, check_permissions
 
 from models import db, setup_db, Actor, Movie
 
@@ -24,7 +24,8 @@ def create_app(test_config=None):
         return response
 
     @app.route('/actors', methods=['GET'])
-    def actors():
+    @requires_auth('get:actors')
+    def actors(self):
         actors = Actor.query.all()
 
         formatted_actors = [actor.format() for actor in actors]
