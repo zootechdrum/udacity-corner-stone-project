@@ -1,6 +1,6 @@
 import React from "react";
 import { useAuth0} from "@auth0/auth0-react";
-import { Auth0Client, Auth0ClientOptions } from "@auth0/auth0-spa-js";
+import jwt_decode from "jwt-decode";
 
 const Main = () => {
     const { isAuthenticated } = useAuth0();
@@ -12,13 +12,15 @@ const Main = () => {
             try {
 
                 const token = await getAccessTokenSilently();
-                console.log(token)
-                const resonse = await fetch('/actors', {
+                const decoded = jwt_decode(token)
+                console.log(decoded)
+                let response = await fetch('/actors', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 })
-                console.log(resonse)
+                const data = await response.json()
+                console.log(data)
             }
             finally{
                 console.log("Nothing")
@@ -28,9 +30,6 @@ const Main = () => {
 }
 
 data()
-
-
-  
 
   return (
       <div>
