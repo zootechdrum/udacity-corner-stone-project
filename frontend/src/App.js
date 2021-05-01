@@ -31,9 +31,9 @@ function App() {
 
       <Router>
         <Switch>
-          <Route path="/" component={Main} />
-          <Route path="/addactor" component={AddActorForm} />
-          <Route path="/addmovie" component={AddMovieForm} />
+          <Route exact path="/" component={Main} />
+          <Route exact path="/addactor" component={AddActorForm} />
+          <Route exact path="/addmovie" component={AddMovieForm} />
         </Switch>
       </Router>
       </Grid>

@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import { useState } from 'react';
 import Button from '@material-ui/core/Button';
+import { useAuth0 } from "@auth0/auth0-react";
+import jwt_decode from "jwt-decode";
 
 
 
@@ -11,7 +13,12 @@ const AddAMovieForm = () => {
     const [movieName, setMovieName] = useState('');
     const [date, setReleaseDate] = useState('');
 
+    const { isAuthenticated } = useAuth0();
+    const { getAccessTokenSilently } = useAuth0();
 
+    
+
+ 
     const onChangeForMovie = (event) => {
         setMovieName(event.target.value)
     }
@@ -20,10 +27,15 @@ const AddAMovieForm = () => {
         setReleaseDate(event.target.value)
     }
 
-    const submit = () => {
+    const submit = async() => {
+      const token = await getAccessTokenSilently();
       const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+           'Content-Type': 'application/json',
+           Authorization: `Bearer ${token}`
+          
+          },
         body: JSON.stringify({ title: movieName, release_date: date })
     };
 
