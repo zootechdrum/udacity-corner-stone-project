@@ -69,7 +69,8 @@ def create_app(test_config=None):
                 })
 
     @app.route('/add_movie', methods=['POST'])
-    def add_movie():
+    @requires_auth('post:movie')
+    def add_movie(self):
 
         body = request.get_json()
         error = False
