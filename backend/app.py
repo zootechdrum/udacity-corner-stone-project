@@ -100,7 +100,8 @@ def create_app(test_config=None):
             })
 
     @app.route('/movies', methods=['GET'])
-    def movies():
+    @requires_auth('get:movies')
+    def movies(self):
         movies = Movie.query.all()
         formatted_movies = [movie.format() for movie in movies ]
         return jsonify({

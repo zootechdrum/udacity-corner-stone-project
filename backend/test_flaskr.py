@@ -27,19 +27,24 @@ class MovieCastingTestCase(unittest.TestCase):
         #     self.db.init_app(self.app)
             # create all tables
             # self.db.create_all()
+        
+        self.header_one = {
+            'Content-Type': 'application_json',
+            'Authorization': os.environ['auth_token']
+        }
 
     def tearDown(self):
         """Executed after reach test"""
         pass
 
     def test_get_movies(self):
-        res = self.client().get('/movies')
+        res = self.client().get('/movies', headers=self.header_one)
  
 
         self.assertEqual(res.status_code,200)
 
     def test_get_actors(self):
-        res = self.client().get('/actors')
+        res = self.client().get('/actors', headers=self.header_one)
  
 
         self.assertEqual(res.status_code,200)
