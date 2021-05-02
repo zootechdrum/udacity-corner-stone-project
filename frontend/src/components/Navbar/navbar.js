@@ -1,3 +1,4 @@
+import { Divider } from '@material-ui/core'
 import React from 'react'
 
 import AuthenticationButton from './Buttons/auth-button'
@@ -8,9 +9,9 @@ const NavBar = () => {
   
     return (
         <nav class="navBarItems nav">
-            <h1 class="navbar-logo">
+            <div class="navbar-logo">
                 <AuthenticationButton />
-            </h1>
+            </div>
         </nav>
     )
   

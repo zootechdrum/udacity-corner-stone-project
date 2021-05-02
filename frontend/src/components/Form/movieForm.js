@@ -46,7 +46,14 @@ const AddAMovieForm = () => {
 
 
  return (
-    <Grid item style={{ backgroundColor: 'yellow' }}>
+  <Grid
+  container
+  spacing={0}
+  align="center"
+  justify="center"
+  direction="column"
+  style={{ backgroundColor: 'teal' }}
+>
       <h2>Add A Movie</h2>
     <form  noValidate autoComplete="off">
       <Input placeholder="Movie Name" value={movieName} onChange = {onChangeForMovie} inputProps={{ 'aria-label': 'description' }} />

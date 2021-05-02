@@ -21,66 +21,77 @@ const Main = () => {
     const [dltBtn, setDltbtn] = useState()
     const [updtBtn, setUpdtBtn] = useState()
 
- 
-    const deleteMovie = (e) => {
-        console.log(e.target.id)
-        const id = e.target.id
-        const requestOptions = {
-          method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' },
-    
-      };
-    
-        fetch('/movies/'+id, requestOptions) 
-        .then(res => console.log(res.json()))
+
+
+
+    const deleteMovie = async (e) => {
+        const id = e.target.parentElement.id
+        const token = await getAccessTokenSilently();
+        console.log(token)
+
+        let delRequest = await fetch('/movies/' + id, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+
+        })
     }
 
-    useEffect(() => {
-        const data = async () => {
-            setLogIn([isAuthenticated])
-                try {
-                    const token = await getAccessTokenSilently();
-                    const decoded = jwt_decode(token)
-                    let response = await fetch('/movies', {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    })
-                    const data = await response.json()
-                    setMovies(data.movies)
-                    setPermissions(decoded.permissions)
+
+useEffect(() => {
+    const data = async () => {
+        setLogIn([isAuthenticated])
+        try {
+            const token = await getAccessTokenSilently();
+            const decoded = jwt_decode(token)
+            let response = await fetch('/movies', {
+                headers: {
+                    Authorization: `Bearer ${token}`
                 }
-                catch (err) {
-                    console.log(`something went wrong ${err}`)
-                }
+            })
+            const data = await response.json()
+            setMovies(data.movies)
+            setPermissions(decoded.permissions, () => console.log("Hello"))
         }
-        if(isLogin) {
-            data()
+        catch (err) {
+            console.log(`something went wrong ${err}`)
         }
+    }
+    if (isLogin) {
+        data()
+    }
 
-    },isLogin)
+}, isLogin, permissions)
 
-    useEffect(()=> {
-        toRenderButtons()
-    })
+useEffect(() => {
+    toRenderButtons()
+})
 
-    const toRenderButtons = () => {
-    if( permissions.indexOf('post:movie') > 0 && permissions.indexOf('post:actor') > 0){
+const toRenderButtons = () => {
+
+    if (permissions.length !== 0) {
+        console.log(permissions)
+
         setMveBtn(true)
         setActrBtn(true)
+        setUpdtBtn(true)
+        setDltbtn(true)
     }
 }
+return (
+    <div>
+        {mveBtn ? <AddMovieBtn /> : ''}{actrBtn ? <AddActorBtn /> : ''}
+        {movies.map(movie => (<SimpleCard movieName={movie.title}
+            dltMve={deleteMovie}
+            id={movie.id}
+            deleteBtn={dltBtn}
+            updtBtn={true}
+        />))}
+    </div>
 
-    return (
-        <div>
-            {mveBtn ? <AddMovieBtn />: ''}{actrBtn ? <AddActorBtn />: ''}
-            {movies.map(movie => (<SimpleCard movieName={"I will be awesome"} 
-            dltMve={deleteMovie} 
-            id={movie.id} 
-            deleteBtn={'true'} />))}
-        </div>
-
-    )
+)
 };
 
 export default Main;

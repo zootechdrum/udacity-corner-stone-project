@@ -18,17 +18,6 @@ function App() {
   return (
 <>
   <NavBar/>
-
-
-    <Grid
-    container
-    spacing={0}
-    align="center"
-    justify="center"
-    direction="column"
-    style={{ backgroundColor: 'teal' }}
-  >
-
       <Router>
         <Switch>
           <Route exact path="/" component={Main} />
@@ -36,7 +25,6 @@ function App() {
           <Route exact path="/addmovie" component={AddMovieForm} />
         </Switch>
       </Router>
-      </Grid>
 </>
   )
 }

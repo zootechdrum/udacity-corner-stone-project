@@ -38,7 +38,14 @@ const AddActorForm = () => {
   
 
   return (
-    <Grid item style={{ backgroundColor: 'yellow' }}>
+    <Grid
+    container
+    spacing={0}
+    align="center"
+    justify="center"
+    direction="column"
+    style={{ backgroundColor: 'teal' }}
+  >
       <h2>Add an Actor</h2>
       <form noValidate autoComplete="off">
         <Input placeholder="Actors Full Name" onChange={onChangeForName} inputProps={{ 'aria-label': 'description' }} />

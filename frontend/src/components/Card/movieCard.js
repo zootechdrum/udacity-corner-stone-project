@@ -26,6 +26,7 @@ const useStyles = makeStyles({
 
 export default function SimpleCard({movieName, deleteBtn, id, dltMve}) {
   const classes = useStyles();
+  console.log(id)
 
 
   return (
@@ -35,7 +36,7 @@ export default function SimpleCard({movieName, deleteBtn, id, dltMve}) {
          {movieName}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          {deleteBtn && <a id={id} onClick={dltMve}>Add a Movie</a>}
+          {deleteBtn && <Button id={id} onClick={dltMve} variant="contained" color="secondary">  Delete a Movie</Button>}
         </Typography>
         <Typography variant="body2" component="p">
           well meaning and kindly.
