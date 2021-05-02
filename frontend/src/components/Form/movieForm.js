@@ -24,6 +24,7 @@ const AddAMovieForm = () => {
     }
 
     const onChangeForDate = (event) => {
+      console.log(event.target.value)
         setReleaseDate(event.target.value)
     }
 

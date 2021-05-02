@@ -13,11 +13,13 @@ const Main = () => {
     const { isAuthenticated } = useAuth0();
     const { getAccessTokenSilently } = useAuth0();
 
-    const [mveBtn, setMveBtn] = useState();
-    const [actrBtn, setActrBtn] = useState();
+    const [mveBtn, setMveBtn] = useState(false);
+    const [actrBtn, setActrBtn] = useState(false);
     const [movies, setMovies] = useState([]);
     const [isLogin, setLogIn] = useState([false])
     const [permissions, setPermissions] = useState([])
+    const [dltBtn, setDltbtn] = useState()
+    const [updtBtn, setUpdtBtn] = useState()
 
  
     const deleteMovie = (e) => {
@@ -47,18 +49,23 @@ const Main = () => {
                     const data = await response.json()
                     setMovies(data.movies)
                     setPermissions(decoded.permissions)
-                    toRenderButton()
                 }
                 catch (err) {
                     console.log(`something went wrong ${err}`)
                 }
         }
-        if(isLogin) {data()}
+        if(isLogin) {
+            data()
+        }
 
     },isLogin)
 
-    const toRenderButton = () => {
-    if( permissions.indexOf('post:movie') && permissions.indexOf('post:actor')){
+    useEffect(()=> {
+        toRenderButtons()
+    })
+
+    const toRenderButtons = () => {
+    if( permissions.indexOf('post:movie') > 0 && permissions.indexOf('post:actor') > 0){
         setMveBtn(true)
         setActrBtn(true)
     }
