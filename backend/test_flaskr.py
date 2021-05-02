@@ -28,9 +28,13 @@ class MovieCastingTestCase(unittest.TestCase):
             # create all tables
             # self.db.create_all()
         
-        self.header_one = {
+        self.exec_header_one = {
             'Content-Type': 'application_json',
             'Authorization': os.environ['auth_token']
+        }
+        self.asst_header_one = {
+            'Content-Type': 'application_json',
+            'Authorization': os.environ['asst_token']
         }
 
     def tearDown(self):
@@ -38,16 +42,52 @@ class MovieCastingTestCase(unittest.TestCase):
         pass
 
     def test_get_movies(self):
-        res = self.client().get('/movies', headers=self.header_one)
- 
-
+        res = self.client().get('/movies', headers=self.exec_header_one)
         self.assertEqual(res.status_code,200)
 
     def test_get_actors(self):
-        res = self.client().get('/actors', headers=self.header_one)
- 
-
+        res = self.client().get('/actors', headers=self.exec_header_one)
         self.assertEqual(res.status_code,200)
+
+    def test_add_actor(self):
+        res = self.client().post('/add_actor', headers=self.exec_header_one, json={
+            'name': 'Maddax Gomez',
+            'age': 3,
+            'gender': "Male",
+        })
+        # data = json.loads(res.data).json()
+        # self.assertEqual(data['success'], True)
+        self.assertEqual(res.status_code, 200)
+    
+    # SHould not add to db. Permissions are not correct. 
+    def test_wrong_role_add_actor(self):
+        res = self.client().post('/add_actor',headers=self.asst_header_one, json={
+            'name': 'Maddax Gomez',
+            'age': 3,
+            'gender': "Male",
+        })
+
+        self.assertEqual(res.status_code, 401)
+
+    def test_add_movie_with_apprvd_role(self):
+        res = self.client().post('/add_movie', headers=self.exec_header_one, json={
+            'title': 'cats',
+            'release_date': '4-25-2021',
+        })
+
+        self.assertEqual(res.status_code, 200)
+
+    def test_add_movie_with_wrong_role(self):
+        res = self.client().post('/add_movie', headers=self.asst_header_one, json={
+            'title': 'cats',
+            'release_date': '4-25-2021',
+        })
+
+        self.assertEqual(res.status_code, 401)
+
+
+
+    
 
 
 

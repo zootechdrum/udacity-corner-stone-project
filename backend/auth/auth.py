@@ -48,7 +48,6 @@ def get_token_auth_header():
     elif header_parts[0].lower() != 'bearer':
         abort(401)
 
-    print(header_parts[1])
     return header_parts[1]
 
 
@@ -103,7 +102,6 @@ def verify_decode_jwt(token):
             'description': 'Authorization malformed.'
         }, 401)
     for key in jwks['keys']:
-        print(key['kty'])
         if key['kid'] == unverified_header['kid']:
             rsa_key = {
                 'kty': key['kty'],
@@ -112,7 +110,6 @@ def verify_decode_jwt(token):
                 'n': key['n'],
                 'e': key['e']
             }
-    print(rsa_key)
     if rsa_key:
         try:
             # USE THE KEY TO VALIDATE THE JWT

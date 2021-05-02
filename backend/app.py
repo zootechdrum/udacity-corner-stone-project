@@ -36,7 +36,8 @@ def create_app(test_config=None):
         }), 200
 
     @app.route('/add_actor', methods=['POST'])
-    def add_actor():
+    @requires_auth('post:actor')
+    def add_actor(self):
 
         body = request.get_json()
         error = False
