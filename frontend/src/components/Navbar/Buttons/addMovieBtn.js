@@ -1,13 +1,11 @@
 import React from "react";
+import Button from '@material-ui/core/Button';
 const AddMovieBtn = () => {
 
   return (
-    <a href="addmovie"><button
-      className="btn btn-primary btn-block"
-    >
-      Add Movie Button
-    </button>
-    </a>
+    <Button href="/addmovie" variant="contained" color="secondary">
+      Add Movie
+    </Button>
   );
 };
 

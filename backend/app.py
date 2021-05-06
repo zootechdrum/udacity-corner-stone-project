@@ -136,7 +136,8 @@ def create_app(test_config=None):
                 }), 200
 
     @app.route('/movies/<movie_id>', methods=['DELETE'])
-    def delete_movie(movie_id):
+    @requires_auth('delete:movie')
+    def delete_movie(self,movie_id):
         movie = {}
         error = False
         try:
