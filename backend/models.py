@@ -13,14 +13,15 @@ database_port = os.environ.get('database_port')
 
 db = SQLAlchemy()
 
-database_path = 'postgresql://{}/{}'.format(database_port,database_name)
+db_path = 'postgresql://{}/{}'.format(database_port,database_name)
 
-def setup_db(app,database_name=database_path):
-    app.config["SQLALCHEMY_DATABASE_URI"] = database_path
+def setup_db(app,database_path=db_path):
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_path
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
-    migrate = Migrate(app, db)
+    # migrate = Migrate(app, db)
+    db.create_all()
 
 
 class Movie(db.Model):

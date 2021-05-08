@@ -1,5 +1,4 @@
-
-from models import setup_db, Movie, Actor
+from models import db, setup_db, Movie, Actor
 from app import create_app
 from flask_sqlalchemy import SQLAlchemy
 import json
@@ -8,25 +7,23 @@ import os
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
-print(create_app)
 
 class MovieCastingTestCase(unittest.TestCase):
     def setUp(self):
-        database_port = os.environ.get('database_port')
-        """Define test variables and initialize app."""
-        self.app = create_app()
+        self.app = create_app(test_config=True)
         self.client = self.app.test_client
         self.port = os.environ.get('database_port')
-        self.database_name = os.environ.get('database_name')
+        self.database_name = "capstone_test"
+        """Define test variables and initialize app."""
         self.database_path = 'postgresql://{}/{}'.format(self.port,self.database_name)
         setup_db(self.app, self.database_path)
 
         # binds the app to the current context
         with self.app.app_context():
             self.db = SQLAlchemy()
-        #     self.db.init_app(self.app)
+            self.db.init_app(self.app)
             # create all tables
-            # self.db.create_all()
+
         
         self.exec_header_one = {
             'Content-Type': 'application_json',
@@ -38,16 +35,9 @@ class MovieCastingTestCase(unittest.TestCase):
         }
 
     def tearDown(self):
-        """Executed after reach test"""
+        """Executed after each test"""
         pass
 
-    def test_get_movies(self):
-        res = self.client().get('/movies', headers=self.exec_header_one)
-        self.assertEqual(res.status_code,200)
-
-    def test_get_actors(self):
-        res = self.client().get('/actors', headers=self.exec_header_one)
-        self.assertEqual(res.status_code,200)
 
     def test_add_actor(self):
         res = self.client().post('/add_actor', headers=self.exec_header_one, json={
@@ -84,6 +74,55 @@ class MovieCastingTestCase(unittest.TestCase):
         })
 
         self.assertEqual(res.status_code, 401)
+
+    def test_get_movies(self):
+        res = self.client().get('/movies', headers=self.exec_header_one)
+        self.assertEqual(res.status_code,200)
+
+    def test_get_actors(self):
+        res = self.client().get('/actors', headers=self.exec_header_one)
+        data = json.loads(res.data)
+        print(data)
+        self.assertEqual(res.status_code,200)
+
+    # For patch requests
+
+    def test_update_actor(self):
+        res = self.client().patch('actors/2', headers=self.exec_header_one, json={
+            'name': 'Maddax Gomezz',
+            'age': 3,
+            'gender': "Male",
+        })
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+
+    # Delete Data
+
+    def test_delete_actor(self):
+        res = self.client().delete('/actors/1', headers=self.exec_header_one)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+
+    def test_delete_movie(self):
+        res = self.client().delete('/movies/1', headers=self.exec_header_one)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+
+    def test_fail_delete_actor(self):
+        res = self.client().delete('/actors/100', headers=self.exec_header_one)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+
+    def test_fail_delete_movie(self):
+        res = self.client().delete('/movies/100', headers=self.exec_header_one)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+
 
 
 

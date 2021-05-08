@@ -9,7 +9,7 @@ from models import db, setup_db, Actor, Movie
 
 
 def create_app(test_config=None):
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder="../frontend/build",static_url_path='/')
     setup_db(app)
     cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
@@ -111,7 +111,8 @@ def create_app(test_config=None):
         })
 
     @app.route('/actors/<actor_id>', methods=['DELETE'])
-    def delete_actor(actor_id):
+    @requires_auth('delete:actor')
+    def delete_actor(self,actor_id):
         actor = {}
         error = False
         try:
@@ -162,17 +163,17 @@ def create_app(test_config=None):
                 }), 200
 
     @app.route('/actors/<int:id>', methods=['PATCH'])
-    def update_actor(id):
+    @requires_auth('patch:actor')
+    def update_actor(self,id):
         error = False
 
         try: 
             body = request.get_json()
-            print(body)
             name = body['name']
             age = body['age']
             gender = body['gender']
+            print(age)
             update_actor = Actor.query.filter(Actor.id == id).one_or_none()
-
 
             if update_actor is None:
                 abort(404)
@@ -259,5 +260,7 @@ def create_app(test_config=None):
             'message': 'Bad Request'
         }), 400
 
+    if __name__ =='__main__':
+        app.run(host='0.0.0.0', debug=False, port=os.environ.get())
 
     return app
