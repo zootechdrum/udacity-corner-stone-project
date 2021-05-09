@@ -33,8 +33,6 @@ class MovieCastingTestCase(unittest.TestCase):
             'Content-Type': 'application/json',
             'Authorization': os.environ['asst_token']
         }
-
-
         movie1 = Movie(
         title="test102",
         release_date="2021-05-12 19:40:01.918917"
@@ -110,7 +108,7 @@ class MovieCastingTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 401)
 
-
+    # Get Data
     def test_get_movies(self):
         res = self.client().get('/movies', headers=self.exec_header_one)
         self.assertEqual(res.status_code,200)
@@ -119,6 +117,16 @@ class MovieCastingTestCase(unittest.TestCase):
         res = self.client().get('/actors', headers=self.exec_header_one)
         data = json.loads(res.data)
         self.assertEqual(res.status_code,200)
+
+    def test_fail_get_movies(self):
+        res = self.client().get('/movies')
+        self.assertEqual(res.status_code,401)
+
+    def test_fail_get_actors(self):
+        res = self.client().get('/actors')
+        self.assertEqual(res.status_code,401)
+
+    # Update Data
 
     def test_update_actor(self):
         res = self.client().patch('/actors/2', headers=self.exec_header_one, json={
@@ -139,12 +147,30 @@ class MovieCastingTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
 
+    def test_fail_update_actor(self):
+        res = self.client().patch('/actors/200', headers=self.exec_header_one, json={
+            "age":25,
+            "gender":"Female",
+            "name":"lus"
+        })
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+
+    def test_fail_update_movie(self):
+        res = self.client().patch('/movies/200', headers=self.exec_header_one, json={
+            "title": "Maddax Gomez",
+            "release_date": '01/01/2010',
+        })
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+
     # Delete Data
 
     def test_delete_actor(self):
         res = self.client().delete('/actors/1', headers=self.exec_header_one)
         data = json.loads(res.data)
-        print(Actor.query.filter(Actor.id == 1).one_or_none())
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
 
@@ -153,16 +179,15 @@ class MovieCastingTestCase(unittest.TestCase):
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-    # For patch requests
 
     def test_fail_delete_actor(self):
-        res = self.client().delete('/actors/100', headers=self.exec_header_one)
+        res = self.client().delete('/actors/1000', headers=self.exec_header_one)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 422)
         self.assertEqual(data['success'], False)
 
     def test_fail_delete_movie(self):
-        res = self.client().delete('/movies/100', headers=self.exec_header_one)
+        res = self.client().delete('/movies/1000', headers=self.exec_header_one)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 422)
         self.assertEqual(data['success'], False)

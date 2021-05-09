@@ -6,6 +6,7 @@ import ActorCard from "../components/Card/actorCard"
 import Grid from '@material-ui/core/Grid';
 import AddMovieBtn from '../components/Navbar/Buttons/addMovieBtn'
 import AddActorBtn from '../components/Navbar/Buttons/addActorBtn'
+import ActorModal from '../components/Modal/actorModal'
 
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -13,15 +14,36 @@ import Modal from '@material-ui/core/Modal';
 import Actor from '../API/actorApi'
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     root: {
         background: '#000'
-    }
-});
+    },
+    paper: {
+        position: 'absolute',
+        width: 400,
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+      }
+    }));
 
 
 
-
+function rand() {
+    return Math.round(Math.random() * 20) - 10;
+  }
+  
+  function getModalStyle() {
+    const top = 50 + rand();
+    const left = 50 + rand();
+  
+    return {
+      top: `${top}%`,
+      left: `${left}%`,
+      transform: `translate(-${top}%, -${left}%)`,
+    };
+  }
 
 const Main = () => {
     const { isAuthenticated } = useAuth0();
@@ -36,6 +58,10 @@ const Main = () => {
     const [dltBtn, setDltbtn] = useState()
     const [updtBtn, setUpdtBtn] = useState()
     const [open, setOpen] = useState(false);
+    const [modalStyle] = useState(getModalStyle);
+
+
+    const classes = useStyles();
 
 
 
@@ -72,7 +98,6 @@ const Main = () => {
                 }
             })
             const data = await response.json()
-            console.log(data.actors[0].name)
             setActors(data.actors)
             // setPermissions(decoded.permissions)
         }
@@ -98,6 +123,7 @@ const Main = () => {
             setLogIn([isAuthenticated])
             try {
                 const token = await getAccessTokenSilently();
+                console.log(token)
                 const decoded = jwt_decode(token)
                 let response = await fetch('/movies', {
                     headers: {
@@ -123,6 +149,15 @@ const Main = () => {
     useEffect(() => {
         toRenderButtons()
     })
+
+    const body = (
+        <div style={modalStyle} className={classes.paper}>
+          <h2 id="simple-modal-title">Text in a modal</h2>
+          <p id="simple-modal-description">
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          </p>
+        </div>
+      );
 
     const toRenderButtons = () => {
 
@@ -165,6 +200,9 @@ const Main = () => {
                     aria-labelledby="simple-modal-title"
                     aria-describedby="simple-modal-description"
                 >
+                    <div style={modalStyle} className={classes.paper}>
+                        <ActorModal />
+                    </div>
                 </Modal>
             </Grid>
         </div>
