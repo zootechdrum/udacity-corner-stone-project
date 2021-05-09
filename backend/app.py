@@ -29,7 +29,6 @@ def create_app(test_config=None):
         actors = Actor.query.all()
 
         formatted_actors = [actor.format() for actor in actors]
-        print(formatted_actors)
         return jsonify({
             'actors':formatted_actors,
             'success': True
@@ -121,7 +120,7 @@ def create_app(test_config=None):
 
             if actor is None:
                 abort(404)
-                print(actor)
+
             actor.delete()
         except BaseException:
             error = True
@@ -162,9 +161,9 @@ def create_app(test_config=None):
                 'message':"Deleted a movie"
                 }), 200
 
-    @app.route('/actors/<int:id>', methods=['PATCH'])
+    @app.route('/actors/<int:actor_id>', methods=['PATCH'])
     @requires_auth('patch:actor')
-    def update_actor(self,id):
+    def update_actor(self,actor_id):
         error = False
 
         try: 
@@ -173,11 +172,10 @@ def create_app(test_config=None):
             age = body['age']
             gender = body['gender']
             print(age)
-            update_actor = Actor.query.filter(Actor.id == id).one_or_none()
+            update_actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
 
             if update_actor is None:
                 abort(404)
-
             update_actor.name = name
             update_actor.age = age
             update_actor.gender = gender
@@ -188,7 +186,8 @@ def create_app(test_config=None):
                 'success': True,
                 'message':"Updated actor successfuly"
             })
-        except BaseException:
+        except BaseException as e:
+            print('BaseException is ',e )
             error = True
             db.session.rollback()
         finally:
@@ -197,7 +196,8 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/movies/<int:id>', methods=['PATCH'])
-    def update_movie(id):
+    @requires_auth('patch:movie')
+    def update_movie(self, id):
         error = False
         try: 
             body = request.get_json()
@@ -210,7 +210,6 @@ def create_app(test_config=None):
 
             update_movie.title = title
             update_actor.release_date = release_date
-            print(update_movie)
             update_movie.update()
 
 
@@ -238,6 +237,7 @@ def create_app(test_config=None):
 
     @app.errorhandler(422)
     def unable_to_process(error):
+        print(error)
         return jsonify({
             'success': False,
             'error': 422,

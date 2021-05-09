@@ -38,6 +38,12 @@ class Movie(db.Model):
             'release_date': self.release_date,
         }
 
+
+    def insert(self):
+        db.session.add(self)
+        db.session.flush()
+        db.session.commit()
+
     def delete(self):
         db.session.delete(self)
         db.session.commit()
