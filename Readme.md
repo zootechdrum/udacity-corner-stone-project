@@ -44,9 +44,11 @@ flask run
 
 ## Testing
 To run the tests, run 
+```
 dropdb capstone_test
 createdb capstone_test
 python3 test_flaskr.py
+```
 
 ## RBAC controls
 Due to time limitiations there are only 2 users 
@@ -116,6 +118,8 @@ All of these endpoints require authorization headers
   "success": true
 }
  ```
+
+ ## Delete
 
 
 
