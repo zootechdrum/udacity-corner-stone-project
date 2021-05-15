@@ -259,8 +259,10 @@ def create_app(test_config=None):
             'error': 400,
             'message': 'Bad Request'
         }), 400
+    
+    return app
 
-app = create_app()
+app = create_app(host='0.0.0.0', port=8080, debug=True)
 
 if __name__ == '__main__':
     app.run()
