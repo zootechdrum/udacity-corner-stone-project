@@ -1,11 +1,10 @@
+import json
+from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, String, Integer, create_engine, DateTime
+import os
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
-import os
-from sqlalchemy import Column, String, Integer, create_engine, DateTime
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-import json
-
 
 
 database_name = os.environ.get('database_name')
@@ -15,7 +14,8 @@ db = SQLAlchemy()
 
 db_path = 'postgres://purdtfkuhaaelh:9975938a64a807937bb1852e8783ac7e701378ece60cfe5c329a9ae3fbec003e@ec2-52-21-153-207.compute-1.amazonaws.com:5432/d5rbjl44msl3mc'
 
-def setup_db(app,database_path=db_path):
+
+def setup_db(app, database_path=db_path):
     app.config['SQLALCHEMY_DATABASE_URI'] = database_path
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
@@ -25,7 +25,7 @@ def setup_db(app,database_path=db_path):
 
 
 class Movie(db.Model):
-    __tablename__='movies'
+    __tablename__ = 'movies'
 
     id = Column(Integer, primary_key=True)
     title = Column(String)
@@ -38,7 +38,6 @@ class Movie(db.Model):
             'release_date': self.release_date,
         }
 
-
     def insert(self):
         db.session.add(self)
         db.session.flush()
@@ -49,17 +48,17 @@ class Movie(db.Model):
         db.session.commit()
 
     def update(self):
-        db.session.commit()     
+        db.session.commit()
+
 
 class Actor(db.Model):
-    __tablename__='actors'
+    __tablename__ = 'actors'
 
     id = Column(Integer, primary_key=True)
 
     name = Column(String)
     age = Column(Integer)
     gender = Column(String)
-
 
     def __init__(self, name, age, gender):
         self.name = name
@@ -80,7 +79,7 @@ class Actor(db.Model):
 
     def delete(self):
         db.session.delete(self)
-        db.session.commit() 
-        
+        db.session.commit()
+
     def update(self):
-        db.session.commit() 
+        db.session.commit()

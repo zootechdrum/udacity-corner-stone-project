@@ -30,7 +30,7 @@ def create_app(test_config=None):
 
         formatted_actors = [actor.format() for actor in actors]
         return jsonify({
-            'actors':formatted_actors,
+            'actors': formatted_actors,
             'success': True
         }), 200
 
@@ -45,7 +45,7 @@ def create_app(test_config=None):
             name = body['name']
             age = body['age']
             gender = body['gender']
-            
+
             actor = Actor(
                 name=name,
                 age=age,
@@ -53,7 +53,7 @@ def create_app(test_config=None):
             )
             db.session.add(actor)
             db.session.commit()
-        except:
+        except BaseException:
             error = True
             db.session.rollback()
         finally:
@@ -64,9 +64,9 @@ def create_app(test_config=None):
         else:
             return jsonify({
                 'success': True,
-                'message':'Actor was saved!'
-                
-                })
+                'message': 'Actor was saved!'
+
+            })
 
     @app.route('/add_movie', methods=['POST'])
     @requires_auth('post:movie')
@@ -78,14 +78,14 @@ def create_app(test_config=None):
 
             title = body['title']
             release_date = body['release_date']
-            
+
             movie = Movie(
                 title=title,
                 release_date=release_date,
             )
             db.session.add(movie)
             db.session.commit()
-        except:
+        except BaseException:
             error = True
             db.session.rollback()
         finally:
@@ -96,22 +96,22 @@ def create_app(test_config=None):
         else:
             return jsonify({
                 'success': True,
-                'message':'Movie has been added!'
+                'message': 'Movie has been added!'
             })
 
     @app.route('/movies', methods=['GET'])
     @requires_auth('get:movies')
     def movies(self):
         movies = Movie.query.all()
-        formatted_movies = [movie.format() for movie in movies ]
+        formatted_movies = [movie.format() for movie in movies]
         return jsonify({
             'success': True,
-            'movies':formatted_movies
+            'movies': formatted_movies
         })
 
     @app.route('/actors/<actor_id>', methods=['DELETE'])
     @requires_auth('delete:actor')
-    def delete_actor(self,actor_id):
+    def delete_actor(self, actor_id):
         actor = {}
         error = False
         try:
@@ -129,15 +129,15 @@ def create_app(test_config=None):
             db.session.close()
         if error:
             abort(422)
-        else:           
+        else:
             return jsonify({
                 'success': True,
-                'message':"Deleted an actor"
-                }), 200
+                'message': "Deleted an actor"
+            }), 200
 
     @app.route('/movies/<movie_id>', methods=['DELETE'])
     @requires_auth('delete:movie')
-    def delete_movie(self,movie_id):
+    def delete_movie(self, movie_id):
         movie = {}
         error = False
         try:
@@ -155,24 +155,25 @@ def create_app(test_config=None):
             db.session.close()
         if error:
             abort(422)
-        else:           
+        else:
             return jsonify({
                 'success': True,
-                'message':"Deleted a movie"
-                }), 200
+                'message': "Deleted a movie"
+            }), 200
 
     @app.route('/actors/<int:actor_id>', methods=['PATCH'])
     @requires_auth('patch:actor')
-    def update_actor(self,actor_id):
+    def update_actor(self, actor_id):
         error = False
 
-        try: 
+        try:
             body = request.get_json()
             name = body['name']
             age = body['age']
             gender = body['gender']
             print(age)
-            update_actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+            update_actor = Actor.query.filter(
+                Actor.id == actor_id).one_or_none()
 
             if update_actor is None:
                 abort(404)
@@ -181,13 +182,12 @@ def create_app(test_config=None):
             update_actor.gender = gender
             update_actor.update()
 
-
             return jsonify({
                 'success': True,
-                'message':"Updated actor successfuly"
+                'message': "Updated actor successfuly"
             })
         except BaseException as e:
-            print('BaseException is ',e )
+            print('BaseException is ', e)
             error = True
             db.session.rollback()
         finally:
@@ -199,7 +199,7 @@ def create_app(test_config=None):
     @requires_auth('patch:movie')
     def update_movie(self, id):
         error = False
-        try: 
+        try:
             body = request.get_json()
             title = body['title']
             release_date = body['release_date']
@@ -212,10 +212,9 @@ def create_app(test_config=None):
             update_actor.release_date = release_date
             update_movie.update()
 
-
             return jsonify({
                 'success': True,
-                'message':"Updated movie successfuly"
+                'message': "Updated movie successfuly"
             })
         except BaseException:
             error = True
@@ -224,8 +223,6 @@ def create_app(test_config=None):
             db.session.close()
         if error:
             abort(422)
-
-    
 
     @app.errorhandler(404)
     def not_found(error):
@@ -237,7 +234,6 @@ def create_app(test_config=None):
 
     @app.errorhandler(422)
     def unable_to_process(error):
-        print(error)
         return jsonify({
             'success': False,
             'error': 422,
@@ -259,8 +255,9 @@ def create_app(test_config=None):
             'error': 400,
             'message': 'Bad Request'
         }), 400
-    
+
     return app
+
 
 app = create_app()
 

@@ -34,16 +34,16 @@ class MovieCastingTestCase(unittest.TestCase):
             'Authorization': os.environ['asst_token']
         }
         movie1 = Movie(
-        title="test102",
-        release_date="2021-05-12 19:40:01.918917"
+            title="test102",
+            release_date="2021-05-12 19:40:01.918917"
         )
         movie2 = Movie(
-        title="test102",
-        release_date="2021-05-12 19:40:01.918917"
+            title="test102",
+            release_date="2021-05-12 19:40:01.918917"
         )
         movie3 = Movie(
-        title="test102",
-        release_date="2021-05-12 19:40:01.918917"
+            title="test102",
+            release_date="2021-05-12 19:40:01.918917"
         )
         movie1.insert()
         movie2.insert()
@@ -81,10 +81,10 @@ class MovieCastingTestCase(unittest.TestCase):
         data = json.loads(res.data)
         self.assertEqual(data['success'], True)
         self.assertEqual(res.status_code, 200)
-    
-    # SHould not add to db. Permissions are not correct. 
+
+    # SHould not add to db. Permissions are not correct.
     def test_wrong_role_add_actor(self):
-        res = self.client().post('/add_actor',headers=self.asst_header_one, json={
+        res = self.client().post('/add_actor', headers=self.asst_header_one, json={
             'name': 'Maddax Gomez',
             'age': 3,
             'gender': "Male",
@@ -111,28 +111,28 @@ class MovieCastingTestCase(unittest.TestCase):
     # Get Data
     def test_get_movies(self):
         res = self.client().get('/movies', headers=self.exec_header_one)
-        self.assertEqual(res.status_code,200)
+        self.assertEqual(res.status_code, 200)
 
     def test_get_actors(self):
         res = self.client().get('/actors', headers=self.exec_header_one)
         data = json.loads(res.data)
-        self.assertEqual(res.status_code,200)
+        self.assertEqual(res.status_code, 200)
 
     def test_fail_get_movies(self):
         res = self.client().get('/movies')
-        self.assertEqual(res.status_code,401)
+        self.assertEqual(res.status_code, 401)
 
     def test_fail_get_actors(self):
         res = self.client().get('/actors')
-        self.assertEqual(res.status_code,401)
+        self.assertEqual(res.status_code, 401)
 
     # Update Data
 
     def test_update_actor(self):
         res = self.client().patch('/actors/2', headers=self.exec_header_one, json={
-            "age":25,
-            "gender":"Female",
-            "name":"lus"
+            "age": 25,
+            "gender": "Female",
+            "name": "lus"
         })
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
@@ -149,9 +149,9 @@ class MovieCastingTestCase(unittest.TestCase):
 
     def test_fail_update_actor(self):
         res = self.client().patch('/actors/200', headers=self.exec_header_one, json={
-            "age":25,
-            "gender":"Female",
-            "name":"lus"
+            "age": 25,
+            "gender": "Female",
+            "name": "lus"
         })
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 422)
@@ -191,6 +191,7 @@ class MovieCastingTestCase(unittest.TestCase):
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 422)
         self.assertEqual(data['success'], False)
+
 
 if __name__ == "__main__":
     unittest.main()
