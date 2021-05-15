@@ -9,7 +9,7 @@ from models import db, setup_db, Actor, Movie
 
 
 def create_app(test_config=None):
-    app = Flask(__name__, static_folder="../frontend/build",static_url_path='/')
+    app = Flask(__name__)
     setup_db(app)
     cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
