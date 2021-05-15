@@ -13,7 +13,7 @@ database_port = os.environ.get('database_port')
 
 db = SQLAlchemy()
 
-db_path = 'postgresql://{}/{}'.format(database_port,database_name)
+db_path = 'postgres://purdtfkuhaaelh:9975938a64a807937bb1852e8783ac7e701378ece60cfe5c329a9ae3fbec003e@ec2-52-21-153-207.compute-1.amazonaws.com:5432/d5rbjl44msl3mc'
 
 def setup_db(app,database_path=db_path):
     app.config['SQLALCHEMY_DATABASE_URI'] = database_path
