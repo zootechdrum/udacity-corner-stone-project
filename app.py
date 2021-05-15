@@ -261,6 +261,6 @@ def create_app(test_config=None):
         }), 400
 
     if __name__ =='__main__':
-        app.run(host='0.0.0.0', debug=False, port=os.environ.get())
+        app.run()
 
     return app
