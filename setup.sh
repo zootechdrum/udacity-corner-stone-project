@@ -1,5 +1,5 @@
 postgresql://claireperacchio@localhost:5432/capstone
-export DATABASE_URL='postgresql://zootechdrum@localhost:5432/moviecasting'
+export DATABASE_URL='postgres://purdtfkuhaaelh:9975938a64a807937bb1852e8783ac7e701378ece60cfe5c329a9ae3fbec003e@ec2-52-21-153-207.compute-1.amazonaws.com:5432/d5rbjl44msl3mc'
 export AUTH0_CLIENT_ID='Bw15bS6215WcihrEI09wVVnuF2rt8aQH'
 export AUTH0_DOMAIN='zootechdrum.us.auth0.com'
 export AUTH0_AUDIENCE='casting'
