@@ -260,7 +260,7 @@ def create_app(test_config=None):
             'message': 'Bad Request'
         }), 400
 
-    if __name__ =='__main__':
-        app.run()
+app = create_app()
 
-    return app
+if __name__ == '__main__':
+    app.run()
