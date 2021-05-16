@@ -62,7 +62,7 @@ Due to time limitiations there are only 2 Roles
 
 * Executive Director
 
-    The Executive assistant has the following permission
+    The Executive Director has the following permission
     1. ``` get:actors ```  The ability to looks at actors!
     2. ``` get:movies ```  The ability to look at all the movies!
     3. ``` delete:actor```  The ability to delete a actor.
