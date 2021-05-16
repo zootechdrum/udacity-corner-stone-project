@@ -23,8 +23,8 @@ def create_app(test_config=None):
             'GET,PATCH,POST,DELETE,OPTIONS')
         return response
 
-    @app.route('/actors', methods=['GET'])
-    @requires_auth('get:actors')
+    @app.route('/', methods=['GET'])
+    # @requires_auth('get:actors')
     def actors(self):
         actors = Actor.query.all()
 
