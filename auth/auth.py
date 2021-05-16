@@ -4,11 +4,14 @@ from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
 import base64
+import os
+# from dotenv import load_dotenv, find_dotenv
+# load_dotenv(find_dotenv())
 
 
-AUTH0_DOMAIN = 'zootechdrum.us.auth0.com'
-ALGORITHMS = ['RS256']
-API_AUDIENCE = 'coffe'
+AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
+ALGORITHMS = os.environ.get('ALGORITHM')
+API_AUDIENCE = os.environ.get('API_AUDIENCE')
 
 # AuthError Exception
 '''

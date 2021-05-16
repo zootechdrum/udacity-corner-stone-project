@@ -50,11 +50,27 @@ createdb capstone_test
 python3 test_flaskr.py
 ```
 
-## RBAC controls
+## RBAC Roles
 Due to time limitiations there are only 2 Roles 
 
 * Executive Assistant
+
+    The Executive assistant has the following permission
+    1. ``` get:actors ```  The ability to looks at actors!
+    2. ``` get movies ```  The ability to look at all the movies!
+
+
 * Executive Director
+
+    The Executive assistant has the following permission
+    1. ``` get:actors ```  The ability to looks at actors!
+    2. ``` get:movies ```  The ability to look at all the movies!
+    3. ``` delete:actor```  The ability to delete a actor.
+    4. ``` delete:movie```  The ability to delete a movie.
+    5. ``` patch:actor```  The ability to update a actor.
+    6. ``` patch:movie```  The ability to update a movie.
+    7. ``` post:actor```  The ability to add an actor actor.
+    8. ``` post:movie```  The ability to add a movie.
 
 ## API Reference
 

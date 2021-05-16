@@ -1,4 +1,3 @@
-postgresql://claireperacchio@localhost:5432/capstone
 export DATABASE_URL='postgres://localhost:5432/moviecasting'
 export AUTH0_CLIENT_ID='Bw15bS6215WcihrEI09wVVnuF2rt8aQH'
 export AUTH0_DOMAIN='zootechdrum.us.auth0.com'
@@ -7,7 +6,7 @@ export AUTH0_CALLBACK_URL='http://localhost:5000/'
 export ENV='development'
 export FLASK_APP=app
 export FLASK_DEBUG=True
-export ALGORITHMS=['RS256']
+export ALGORITHM=['RS256']
 export AUTH0_CLIENT_SECRET='oqLSZ_gSmyRnJhjI0-cP-oXao3ejJslqoxCxduQb3xVu4A_HmNVAd9Q1sBMax6b1'
 
 pip3 install -r requirements.txt

@@ -23,7 +23,16 @@ def create_app(test_config=None):
             'GET,PATCH,POST,DELETE,OPTIONS')
         return response
 
+# This endpoint displays a welcome message when hit. 
     @app.route('/', methods=['GET'])
+    def home():
+        return jsonify({
+            'actors': "Welcome to my Udacity Application",
+            'success': True
+        }), 200
+
+# This endpoint gets all actors from database.
+    @app.route('/actors', methods=['GET'])
     def actors():
         actors = Actor.query.all()
 
