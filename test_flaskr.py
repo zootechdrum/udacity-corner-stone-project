@@ -114,7 +114,7 @@ class MovieCastingTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
 
     def test_get_actors(self):
-        res = self.client().get('/actors', headers=self.exec_header_one)
+        res = self.client().get('/', headers=self.exec_header_one)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
 
@@ -123,8 +123,8 @@ class MovieCastingTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 401)
 
     def test_fail_get_actors(self):
-        res = self.client().get('/actors')
-        self.assertEqual(res.status_code, 401)
+        res = self.client().get('/')
+        self.assertEqual(res.status_code, 200)
 
     # Update Data
 

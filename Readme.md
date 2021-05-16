@@ -51,7 +51,7 @@ python3 test_flaskr.py
 ```
 
 ## RBAC controls
-Due to time limitiations there are only 2 users 
+Due to time limitiations there are only 2 Roles 
 
 * Executive Assistant
 * Executive Director
@@ -76,9 +76,6 @@ The API will return four error types when requests fail:
 
 # EndPoints
 
-```
-All of these endpoints require authorization headers
-```
 
 ## GET /actors
  * Returns a list of actors that include data such as Gender, Full name, age.
@@ -119,7 +116,56 @@ All of these endpoints require authorization headers
 }
  ```
 
- ## Delete
+ ## DELETE /actors/<actor_id>
+ 
+  * Returns a success message following a successful deletion of actor.
+ ```
+ {
+   'success': True,
+   'message': "Deleted an actor"
+  }
+ ```
+
+
+ ## DELETE /movies/<movie_id>
+ 
+  * Returns a success message following a successful deletion of Movie.
+ ```
+  {
+   'success': True,
+   'message': "Deleted a Movie"
+  }
+ ```
+
+ ## Patch /actors/<int:actor_id>
+
+  * Returns a success message following a successful update of an actor
+
+  ```
+  {
+    'success': True,
+     'message': "Updated actor successfuly"
+  }
+  ```
+
+  ## Patch /movies/<int:id>
+
+  * Returns a success message following a successful update of a Movie
+
+  ```
+  {
+    'success': True,
+    'message': "Updated movie successfuly"
+  }
+  ```
+  # Executive Director Token: 
+  eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlBxT0lFeU5nOEk5c2hHVG1KR2JDOSJ9.eyJpc3MiOiJodHRwczovL3pvb3RlY2hkcnVtLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2MDQ1YTg1NDBkOWY3MTAwNzBlZTc5ODEiLCJhdWQiOlsiY29mZmUiLCJodHRwczovL3pvb3RlY2hkcnVtLnVzLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2MjExMzI1NjIsImV4cCI6MTYyMTIxODk2MiwiYXpwIjoiQncxNWJTNjIxNVdjaWhyRUkwOXdWVm51RjJydDhhUUgiLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdG9yIiwiZGVsZXRlOm1vdmllIiwiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiLCJwYXRjaDphY3RvciIsInBhdGNoOm1vdmllIiwicG9zdDphY3RvciIsInBvc3Q6bW92aWUiXX0.lr15Lh5WsYy1LwCpinXQf8BsfPJIkML6vNA4hi3tfBu3Mhw4Iun4w50w0bXd0Ag8YVoB3fk9KTt6jh8imnZNJgByLcGrxrKFJnt-vbQTJR8G_yZQdthIIMnlp7Tv48aeU7gbx6iMHvOhZlgUUwmMx_31NIAr933u89QSlsbR6K58jP2IDHA8CCvSqWtrUOdMVlzV-aS83aH4kRt1byjSPlCNbDOhu-Pv5eVQ9NFic_Nvg4K2TODfZQI40YL7_6fIyBGWVuIluFTCjaGpw9LQyR_3_LCkVTA7TfymhRPrT4anPdYXXknX3p2ZqEb_sLwOYA5YqHcDOR4t4K_DvBjgpQ
+
+
+  # Executive Assistant
+  eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlBxT0lFeU5nOEk5c2hHVG1KR2JDOSJ9.eyJpc3MiOiJodHRwczovL3pvb3RlY2hkcnVtLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwNDQ2MDUwMzYyNTYyMjA3MTQxMyIsImF1ZCI6WyJjb2ZmZSIsImh0dHBzOi8vem9vdGVjaGRydW0udXMuYXV0aDAuY29tL3VzZXJpbmZvIl0sImlhdCI6MTYyMTEzMzQzMCwiZXhwIjoxNjIxMjE5ODMwLCJhenAiOiJCdzE1YlM2MjE1V2NpaHJFSTA5d1ZWbnVGMnJ0OGFRSCIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJwZXJtaXNzaW9ucyI6WyJnZXQ6YWN0b3JzIiwiZ2V0Om1vdmllcyJdfQ.NzA1sjoi4u38EQsVCAWv_3PWlmGzYEUvXijzLLqNBSOvKkqLBcXTcmtAYwI46mxe8Oq4HLzNZbCy01U4IQaN1i6xR2XX-t_7HO6S9MUMRtL0YXjszBpi2p0goPCYmumeHSs0intADbD6ZD3FMcf0atfSVmtpaqQJ62gD9GJbAWBjSroHx99euX_p3lCvSm_H_C6GUGmaQ6f-3geLkeDY9SJpcGHo8SkCv24v8gVEVhA7fGD8BGuxeiUWCrbIakE5HPsbCTC1AroIrWx-gGYAjlB1ceSaW7xXaDjf65Smi3Sx6u5IFR-Yj9mpilhF1LxsxziV4T8HF4f-bT3VPBnqfg
+
+ The deployed heroku application can be found [here](https://movie-casting.herokuapp.com/)
 
 
 
