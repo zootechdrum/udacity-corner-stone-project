@@ -23,7 +23,7 @@ def create_app(test_config=None):
             'GET,PATCH,POST,DELETE,OPTIONS')
         return response
 
-# This endpoint displays a welcome message when hit. 
+# This endpoint displays a welcome message when hit.
     @app.route('/', methods=['GET'])
     def home():
         return jsonify({
@@ -42,6 +42,7 @@ def create_app(test_config=None):
             'success': True
         }), 200
 
+# This endpoint adds an actor
     @app.route('/add_actor', methods=['POST'])
     @requires_auth('post:actor')
     def add_actor(self):
@@ -75,6 +76,7 @@ def create_app(test_config=None):
                 'message': 'Actor was saved!'
 
             })
+# This endpoint adds a movie
 
     @app.route('/add_movie', methods=['POST'])
     @requires_auth('post:movie')
@@ -107,6 +109,7 @@ def create_app(test_config=None):
                 'message': 'Movie has been added!'
             })
 
+# This endpoint gets all movies
     @app.route('/movies', methods=['GET'])
     @requires_auth('get:movies')
     def movies(self):
@@ -142,6 +145,7 @@ def create_app(test_config=None):
                 'success': True,
                 'message': "Deleted an actor"
             }), 200
+# This endpoint deleted one movie
 
     @app.route('/movies/<movie_id>', methods=['DELETE'])
     @requires_auth('delete:movie')
@@ -168,6 +172,7 @@ def create_app(test_config=None):
                 'success': True,
                 'message': "Deleted a movie"
             }), 200
+# This endpoint updates an actor by id
 
     @app.route('/actors/<int:actor_id>', methods=['PATCH'])
     @requires_auth('patch:actor')
@@ -202,6 +207,7 @@ def create_app(test_config=None):
             db.session.close()
         if error:
             abort(422)
+# This endpoint updated a movie
 
     @app.route('/movies/<int:id>', methods=['PATCH'])
     @requires_auth('patch:movie')
