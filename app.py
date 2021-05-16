@@ -30,7 +30,7 @@ def create_app(test_config=None):
 
         formatted_actors = [actor.format() for actor in actors]
         return jsonify({
-            'actors': formatted_actors,
+            'actors': [],
             'success': True
         }), 200
 
