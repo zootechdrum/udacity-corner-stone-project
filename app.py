@@ -25,12 +25,12 @@ def create_app(test_config=None):
 
     @app.route('/', methods=['GET'])
     # @requires_auth('get:actors')
-    def actors(self):
+    def actors():
         actors = Actor.query.all()
 
         formatted_actors = [actor.format() for actor in actors]
         return jsonify({
-            'actors': [],
+            'actors': formatted_actors,
             'success': True
         }), 200
 
